@@ -48,7 +48,7 @@ if [ "$rust_build_profile" == 'release' ]; then
 fi
 
 ##  Location of the Stub Library.  We will replace this stub by the Rust Library
-##  rust_app_dest will be set to build_out/rust-app/librust-app.a
+##  rust_app_dest will be set to ../../../nuttx/staging/librust.a
 rust_app_dir=$NUTTX_PATH/staging
 rust_app_dest=$rust_app_dir/librust.a
 
@@ -58,7 +58,7 @@ rust_build_dir=$PWD/rust/target/$rust_build_target_folder/$rust_build_profile
 rust_app_build=$rust_build_dir/libapp.a
 
 ##  Remove the Stub Library if it exists:
-##  build_out/rust-app/librust-app.a
+##  ../../../nuttx/staging/librust.a
 if [ -e $rust_app_dest ]; then
     rm $rust_app_dest
 fi

@@ -8,6 +8,8 @@ This repo depends on...
 
 -   [lupyuen/rust-nuttx](https://github.com/lupyuen/rust-nuttx)
 
+# Install App
+
 To add this repo to your NuttX project...
 
 ```bash

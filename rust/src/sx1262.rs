@@ -7,8 +7,8 @@ use sx126x::{     //  SX1262 Library
     reg::Register,//  LoRa Registers
     SX126x,       //  SX1262 Driver
 };
-use crate::{      //  Local Library
-    nuttx_hal,    //  NuttX Embedded HAL
+use nuttx_embedded_hal::{  //  NuttX Embedded HAL
+    println,
 };
 
 /// TODO: Change this to your LoRa Frequency
@@ -25,22 +25,34 @@ pub fn test_sx1262() {
     println!("test_sx1262");
 
     //  Open GPIO Input for SX1262 Busy Pin
-    let lora_busy = nuttx_hal::InputPin::new("/dev/gpio0");
+    let lora_busy = nuttx_embedded_hal::InputPin
+        ::new("/dev/gpio0")
+        .expect("open gpio failed");
 
     //  Open GPIO Output for SX1262 Chip Select
-    let lora_nss = nuttx_hal::OutputPin::new("/dev/gpio1");
+    let lora_nss = nuttx_embedded_hal::OutputPin
+        ::new("/dev/gpio1")
+        .expect("open gpio failed");
 
     //  Open GPIO Interrupt for SX1262 DIO1 Pin
-    let lora_dio1 = nuttx_hal::InterruptPin::new("/dev/gpio2");
+    let lora_dio1 = nuttx_embedded_hal::InterruptPin
+        ::new("/dev/gpio2")
+        .expect("open gpio failed");
 
     //  TODO: Open GPIO Output for SX1262 NRESET Pin
-    let lora_nreset = nuttx_hal::UnusedPin::new();
+    let lora_nreset = nuttx_embedded_hal::UnusedPin
+        ::new()
+        .expect("open gpio failed");
 
     //  TODO: Open GPIO Output for SX1262 Antenna Pin
-    let lora_ant = nuttx_hal::UnusedPin::new();
+    let lora_ant = nuttx_embedded_hal::UnusedPin
+        ::new()
+        .expect("open gpio failed");
 
     //  Open SPI Bus for SX1262
-    let mut spi1 = nuttx_hal::Spi::new("/dev/spitest0");
+    let mut spi1 = nuttx_embedded_hal::Spi
+        ::new("/dev/spitest0")
+        .expect("open spi failed");
 
     //  Define the SX1262 Pins
     let lora_pins = (
@@ -52,7 +64,7 @@ pub fn test_sx1262() {
     );
 
     //  Init a busy-waiting delay
-    let delay = &mut nuttx_hal::Delay::new();
+    let delay = &mut nuttx_embedded_hal::Delay;
 
     //  Init LoRa modem
     println!("Init modem...");

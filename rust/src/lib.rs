@@ -1,12 +1,5 @@
 #![no_std]  //  Use the Rust Core Library instead of the Rust Standard Library, which is not compatible with embedded systems
 
-//  Import Macros for NuttX
-#[macro_use]
-mod macros;
-
-//  Import NuttX HAL
-mod nuttx_hal;
-
 //  Import Module sx1262
 mod sx1262;
 
@@ -22,6 +15,9 @@ use embedded_hal::{           //  Rust Embedded HAL
         delay::DelayMs,       //  Delay Interface
         spi::Transfer,        //  SPI Transfer
     },
+};
+use nuttx_embedded_hal::{  //  NuttX Embedded HAL
+    println,
 };
 
 #[no_mangle]                 //  Don't mangle the function name
@@ -140,13 +136,17 @@ fn test_hal() {
     println!("test_hal");
 
     //  Open GPIO Output for SX1262 Chip Select
-    let mut cs = nuttx_hal::OutputPin::new("/dev/gpio1");
+    let mut cs = nuttx_embedded_hal::OutputPin
+        ::new("/dev/gpio1")
+        .expect("open gpio failed");
 
     //  Open SPI Bus for SX1262
-    let mut spi = nuttx_hal::Spi::new("/dev/spitest0");
+    let mut spi = nuttx_embedded_hal::Spi
+        ::new("/dev/spitest0")
+        .expect("open spi failed");
 
     //  Get a Delay Interface
-    let mut delay = nuttx_hal::Delay::new();
+    let mut delay = nuttx_embedded_hal::Delay;
 
     //  Set SX1262 Chip Select to Low
     cs.set_low()
@@ -169,7 +169,7 @@ fn test_hal() {
         .expect("cs failed");
 
     //  Wait 5 seconds
-    delay.delay_ms(5000);
+    delay.delay_ms(5000_u32);
 }
 
 /// Print a message to the serial console.

@@ -13,8 +13,10 @@ This repo depends on...
 To add this repo to your NuttX project...
 
 ```bash
-cd nuttx/apps/examples
+## TODO: Change this to the path of our "incubator-nuttx-apps" folder
+pushd nuttx/apps/examples
 git submodule add https://github.com/lupyuen/rust_test
+popd
 ```
 
 Then update the NuttX Build Config...
@@ -44,6 +46,13 @@ make menuconfig
 ```
 
 In menuconfig, enable the Rust Test App under "Application Configuration" → "Examples".
+
+To build the NuttX + Rust project...
+
+```bash
+cd nuttx/apps/examples/rust_test
+./run.sh
+```
 
 In NuttX Shell, enter this to run the app...
 
